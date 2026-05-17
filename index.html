@@ -10,7 +10,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -26,8 +26,7 @@
 
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -36,63 +35,41 @@
             color: #ffffff;
             font-family: var(--font-main);
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; width: 100vw;
         }
 
         .app-container {
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
+            width: 100%; max-width: 450px; height: 100%;
             background-color: var(--background);
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            display: flex; flex-direction: column; position: relative;
         }
 
         header {
             padding: calc(var(--safe-top) + 15px) 20px 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(20px);
-            z-index: 10;
+            backdrop-filter: blur(20px); z-index: 10;
         }
 
         .logo {
-            font-weight: 800;
-            font-size: 26px;
-            letter-spacing: -1.5px;
-            color: #ffffff;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
+            font-weight: 800; font-size: 28px; letter-spacing: -1.5px;
+            background: linear-gradient(180deg, #fff 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding-bottom: calc(var(--safe-bottom) + 80px);
+            flex: 1; overflow-y: auto;
+            padding-bottom: calc(var(--safe-bottom) + 85px);
             scrollbar-width: none;
         }
         .main-content::-webkit-scrollbar { display: none; }
 
         .screen {
-            display: none;
-            padding: 20px;
-            animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none; padding: 20px;
+            animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .screen.active { display: block; }
 
         @keyframes fadeIn {
@@ -100,97 +77,372 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            letter-spacing: -0.5px;
-        }
-
+        /* --- UI COMPONENTS (EXAКТ NACH FIGMA) --- */
+        .section-title { font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+        
         /* --- 1. HOME FEED --- */
-        .stories-container {
-            display: flex;
-            gap: 16px;
-            overflow-x: auto;
-            padding: 0px 0px 20px 0px;
-            scrollbar-width: none;
-        }
+        .stories-container { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
         .stories-container::-webkit-scrollbar { display: none; }
+        .story { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: var(--text-secondary); min-width: 62px; }
+        .story-avatar { width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--accent-cyan); box-shadow: 0 0 10px rgba(125, 249, 255, 0.2); margin-bottom: 6px; background: #161616; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 11px; color: #fff;}
+        .story.me .story-avatar { border: 2px dashed var(--text-secondary); box-shadow: none; color: var(--text-secondary); }
 
-        .story {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 10px;
-            color: var(--text-secondary);
-            min-width: 65px;
-        }
-
-        .story-avatar {
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 10px rgba(125, 249, 255, 0.25);
-            margin-bottom: 6px;
-            background: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600;
-            color: #fff;
-        }
-
-        .story.me .story-avatar {
-            border: 2px dashed var(--text-secondary);
-            box-shadow: none;
-            color: var(--text-secondary);
-        }
-
-        .feed-post {
-            background-color: var(--card);
-            border-radius: 24px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.02);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
-
-        .post-user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #222;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 800;
-            font-size: 13px;
-        }
-
-        .user-meta h4 { font-size: 14px; font-weight: 600; letter-spacing: -0.3px; }
+        .feed-post { background: var(--card); border-radius: 24px; padding: 18px; border: 1px solid rgba(255, 255, 255, 0.02); }
+        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; background: #222; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 12px; }
+        .user-meta h4 { font-size: 14px; font-weight: 600; }
         .user-meta p { font-size: 11px; color: var(--text-secondary); }
+        .post-image-area { width: 100%; height: 260px; border-radius: 18px; background: linear-gradient(180deg, #090909, #12161a); position: relative; overflow: hidden; margin-bottom: 16px; border: 1px solid rgba(255, 255, 255, 0.02); }
+        .mock-route { position: absolute; width: 70%; height: 55%; top: 15%; left: 15%; border: 3px solid var(--accent-cyan); border-radius: 40% 60% 35% 65% / 50% 40% 60% 50%; filter: drop-shadow(0 0 10px var(--accent-cyan)); opacity: 0.6; }
+        .post-stats-grid { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(5,5,5,0.95) 75%); padding: 20px 16px 16px 16px; display: grid; grid-template-columns: repeat(4, 1fr); text-align: center;}
+        .stat-box .stat-val { font-weight: 800; font-size: 16px; color: #fff; }
+        .stat-box .stat-lbl { font-size: 9px; color: var(--text-secondary); text-transform: uppercase; margin-top: 3px; font-weight: 600; }
+        .post-actions { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .action-group { display: flex; gap: 20px; }
+        .action-btn { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: var(--font-main); }
+        .action-btn.liked { color: var(--accent-cyan); text-shadow: 0 0 8px var(--accent-cyan); }
+        .action-btn.saved { color: var(--accent-cyan); }
+        .post-caption { font-size: 13px; line-height: 1.4; color: #e0e0e0; }
+        .post-caption span { font-weight: 700; color: #fff; margin-right: 6px; }
+        .post-time { font-size: 10px; color: var(--text-secondary); margin-top: 6px; }
 
-        .post-image-area {
-            width: 100%;
-            height: 260px;
-            border-radius: 18px;
-            background: linear-gradient(180deg, #0a0a0a 0%, #15191e 100%);
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 16px;
-            border: 1px solid rgba(255, 255,
+        /* --- 2. RUN TRACKING --- */
+        .tracking-view { display: flex; flex-direction: column; align-items: center; }
+        .gps-badge { font-size: 9px; font-weight: 800; color: var(--accent-cyan); letter-spacing: 1px; margin-bottom: 25px; background: rgba(125, 249, 255, 0.08); padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;}
+        .pace-circle { width: 220px; height: 220px; border-radius: 50%; border: 2px solid rgba(125, 249, 255, 0.1); position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 35px; box-shadow: inset 0 0 20px rgba(125, 249, 255, 0.02); }
+        .pace-circle::before { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--accent-cyan); animation: rotateGlow 5s linear infinite; }
+        @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .circle-lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; }
+        .circle-val { font-size: 44px; font-weight: 800; color: #fff; margin: 2px 0; letter-spacing: -1px; }
+        .circle-unit { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
+        .live-grid { display: grid; grid-template-columns: 1fr 1fr; width: 100%; gap: 24px; margin-bottom: 35px; padding: 0 10px; }
+        .live-box { text-align: center; }
+        .live-box .lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+        .live-box .val { font-size: 24px; font-weight: 800; color: #fff; }
+        .controls { display: flex; justify-content: center; align-items: center; gap: 24px; }
+        .btn-side { width: 46px; height: 46px; border-radius: 50%; background: var(--card); border: 1px solid rgba(255, 255, 255, 0.04); color: white; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .btn-main { width: 74px; height: 74px; border-radius: 50%; background: var(--accent-cyan); border: none; color: #050505; font-size: 24px; cursor: pointer; box-shadow: 0 0 25px rgba(125, 249, 255, 0.35); display: flex; justify-content: center; align-items: center; }
+
+        /* --- 3. AI COACH --- */
+        .coach-card { background: var(--card); border-radius: 24px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.02); margin-bottom: 20px; position: relative; }
+        .coach-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .coach-title h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+        .coach-title p { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+        .score-circle { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--accent-cyan); display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 0 15px rgba(125, 249, 255, 0.2); }
+        .score-num { font-size: 20px; font-weight: 800; color: #fff; }
+        .score-lbl { font-size: 7px; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; }
+        .badge-easy { display: inline-block; background: rgba(125, 249, 255, 0.08); color: var(--accent-cyan); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 12px; margin-top: 10px; }
+        .week-dots { display: flex; justify-content: space-between; margin: 20px 0 10px 0; }
+        .dot-box { text-align: center; }
+        .dot-lbl { font-size: 9px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600; }
+        .dot { width: 28px; height: 28px; border-radius: 50%; background: #161616; display: flex; justify-content: center; align-items: center; font-size: 11px; color: var(--text-secondary); border: 1px solid transparent; }
+        .dot.active { background: var(--accent-cyan); color: #050505; font-weight: 700; box-shadow: 0 0 10px rgba(125, 249, 255, 0.3); }
+        .dot.done { border-color: rgba(125, 249, 255, 0.3); color: #fff; }
+        .chart-area { margin-top: 15px; background: rgba(255,255,255,0.01); border-radius: 14px; padding: 14px; border: 1px solid rgba(255,255,255,0.01); }
+        .chart-header { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 10px; }
+        .chart-svg { width: 100%; height: 50px; stroke: var(--accent-cyan); stroke-width: 2; fill: none; }
+        .primary-btn { width: 100%; background: var(--accent-cyan); color: #050505; border: none; border-radius: 14px; padding: 14px; font-weight: 700; font-size: 13px; font-family: var(--font-main); cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- 4. EXPLORE --- */
+        .tabs-sub { display: flex; gap: 16px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.03); padding-bottom: 10px; }
+        .tab-sub-item { background: none; border: none; color: var(--text-secondary); font-family: var(--font-main); font-size: 13px; font-weight: 600; cursor: pointer; }
+        .tab-sub-item.active { color: #fff; }
+        .challenge-card { width: 100%; height: 180px; border-radius: 20px; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?q=80&w=400') center/cover; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; border: 1px solid rgba(255,255,255,0.02); margin-bottom: 24px;}
+        .challenge-card h4 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        .challenge-card p { font-size: 11px; color: var(--text-secondary); margin: 2px 0 10px 0; }
+        .challenge-meta { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        .join-badge { background: #fff; color: #050505; font-weight: 700; padding: 6px 14px; border-radius: 20px; }
+        .leaderboard-list { background: var(--card); border-radius: 20px; padding: 6px 16px; border: 1px solid rgba(255,255,255,0.02); }
+        .leader-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.02); font-size: 13px; }
+        .leader-item:last-child { border-none: true; border-bottom: none; }
+        .leader-left { display: flex; align-items: center; gap: 12px; }
+        .rank { font-size: 11px; font-weight: 700; color: var(--text-secondary); width: 10px; }
+        .leader-name { font-weight: 600; }
+        .leader-val { font-weight: 700; font-size: 12px; color: var(--text-secondary); }
+
+        /* --- 5. PROFILE --- */
+        .profile-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 25px; padding-top: 10px; }
+        .profile-avatar { width: 72px; height: 72px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 800; margin-bottom: 12px; background: linear-gradient(180deg, #111, #222); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .profile-header h3 { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+        .profile-header p { font-size: 12px; color: var(--text-secondary); margin-top: 4px; max-width: 280px; line-height: 1.4; }
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border-radius: 20px; padding: 14px; border: 1px solid rgba(255,255,255,0.02); text-align: center; margin-bottom: 24px;}
+        .p-stat h5 { font-size: 16px; font-weight: 800; color: #fff; }
+        .p-stat p { font-size: 9px; color: var(--text-secondary); text-transform: uppercase; font-weight: 600; margin-top: 2px; }
+        .weekly-mileage-card { background: var(--card); border-radius: 20px; padding: 16px; border: 1px solid rgba(255,255,255,0.02); }
+        .mileage-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+        .mileage-header h4 { font-size: 20px; font-weight: 800; }
+        .bars-container { display: flex; justify-content: space-between; align-items: flex-end; height: 60px; padding-top: 10px; }
+        .bar-group { text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .bar { width: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; position: relative; height: 50px; }
+        .bar-fill { position: absolute; bottom: 0; left: 0; right: 0; background: var(--text-secondary); border-radius: 4px; transition: height 0.5s ease; }
+        .bar-group.active .bar-fill { background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
+        .bar-lbl { font-size: 8px; color: var(--text-secondary); font-weight: 600; }
+
+        /* --- NAV BAR --- */
+        .tab-bar {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            height: calc(65px + var(--safe-bottom));
+            background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex; justify-content: space-around;
+            padding-bottom: var(--safe-bottom); z-index: 10;
+        }
+        .tab-item {
+            background: none; border: none; color: var(--text-secondary);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 22px; width: 20%; cursor: pointer; position: relative;
+        }
+        .tab-item.active { color: #ffffff; }
+        .tab-item.active::after {
+            content: ''; position: absolute; bottom: calc(var(--safe-bottom) + 4px);
+            width: 4px; height: 4px; background-color: var(--accent-cyan);
+            border-radius: 50%; box-shadow: 0 0 8px var(--accent-cyan);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <header>
+        <div class="logo">762</div>
+        <button class="icon-btn" style="font-size: 16px; color: var(--text-secondary); font-weight:600; letter-spacing:0.5px;">BERLIN</button>
+    </header>
+
+    <div class="main-content">
+        
+        <div id="screen-home" class="screen active">
+            <div class="stories-container">
+                <div class="story me"><div class="story-avatar">+</div><span>Deine Story</span></div>
+                <div class="story"><div class="story-avatar">L</div><span>lukas.runs</span></div>
+                <div class="story"><div class="story-avatar">M</div><span>maya.runss</span></div>
+                <div class="story"><div class="story-avatar">F</div><span>flo.running</span></div>
+                <div class="story"><div class="story-avatar">S</div><span>sarah.tr</span></div>
+            </div>
+
+            <div class="feed-post">
+                <div class="post-header">
+                    <div class="user-avatar" style="border-color:var(--accent-cyan);">MR</div>
+                    <div class="user-meta">
+                        <h4>michael.runs 👑</h4>
+                        <p>Berlin, Germany</p>
+                    </div>
+                </div>
+                <div class="post-image-area">
+                    <div class="mock-route"></div>
+                    <div class="post-stats-grid">
+                        <div class="stat-box"><div class="stat-val">10,21</div><div class="stat-lbl">KM</div></div>
+                        <div class="stat-box"><div class="stat-val">5'23"</div><div class="stat-lbl">Pace</div></div>
+                        <div class="stat-box"><div class="stat-val">50:32</div><div class="stat-lbl">Zeit</div></div>
+                        <div class="stat-box"><div class="stat-val">152</div><div class="stat-lbl">BPM</div></div>
+                    </div>
+                </div>
+                <div class="post-actions">
+                    <div class="action-group">
+                        <button class="action-btn" onclick="toggleLike(this)">⚡ <span class="count">342</span></button>
+                        <button class="action-btn">💬 <span>28</span></button>
+                    </div>
+                    <button class="action-btn" onclick="toggleSave(this)">🔖</button>
+                </div>
+                <div class="post-caption">
+                    <p><span>michael.runs</span>Night runs hit different. 🌙 #762crew</p>
+                    <div class="post-time">Vor 2 Stunden</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-track" class="screen">
+            <div class="tracking-view">
+                <div class="gps-badge">● GPS LIVE</div>
+                
+                <div class="pace-circle">
+                    <span class="circle-lbl">Current Pace</span>
+                    <span class="circle-val" id="live-pace">5'23"</span>
+                    <span class="circle-unit">/KM</span>
+                </div>
+
+                <div class="live-grid">
+                    <div class="live-box"><div class="lbl">Distanz</div><div class="val" id="live-dist">7,48 <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">KM</span></div></div>
+                    <div class="live-box"><div class="lbl">Zeit</div><div class="val" id="live-time">35:20</div></div>
+                    <div class="live-box"><div class="lbl">Herzfrequenz</div><div class="val">148 <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">BPM</span></div></div>
+                    <div class="live-box"><div class="lbl">Höhenmeter</div><div class="val">86 <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">M</span></div></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn-side">🔒</button>
+                    <button class="btn-main" id="track-btn" onclick="toggleTracking()">▶</button>
+                    <button class="btn-side">🏳️</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-coach" class="screen">
+            <div class="section-title">Heutige Empfehlung</div>
+            <div class="coach-card">
+                <div class="coach-header">
+                    <div class="coach-title">
+                        <h3>Recovery Run</h3>
+                        <p>Dein Körper braucht heute aktive Regeneration.</p>
+                        <span class="badge-easy">Easy</span>
+                    </div>
+                    <div class="score-circle">
+                        <span class="score-num">82</span>
+                        <span class="score-lbl">Score</span>
+                    </div>
+                </div>
+                <p style="font-size: 11px; color: var(--text-secondary); font-weight:600;">6 - 8 KM &nbsp;&bull;&nbsp; 5'20" - 5'45" /KM</p>
+            </div>
+
+            <div class="section-title">Wöchentliche Übersicht</div>
+            <div class="coach-card" style="padding-top: 10px;">
+                <div class="week-dots">
+                    <div class="dot-box"><div class="dot-lbl">M</div><div class="dot done">✓</div></div>
+                    <div class="dot-box"><div class="dot-lbl">D</div><div class="dot done">✓</div></div>
+                    <div class="dot-box"><div class="dot-lbl">M</div><div class="dot done">✓</div></div>
+                    <div class="dot-box"><div class="dot-lbl">D</div><div class="dot done">✓</div></div>
+                    <div class="dot-box"><div class="dot-lbl">F</div><div class="dot active">⚡</div></div>
+                    <div class="dot-box"><div class="dot-lbl">S</div><div class="dot">S</div></div>
+                    <div class="dot-box"><div class="dot-lbl">S</div><div class="dot">S</div></div>
+                </div>
+            </div>
+
+            <div class="section-title">AI Insight Details</div>
+            <div class="coach-card">
+                <div class="chart-header">
+                    <div>Pace-Stabilität</div>
+                    <div style="color: var(--accent-cyan); font-weight: 700;">+12%</div>
+                </div>
+                <div class="chart-area">
+                    <svg class="chart-svg" viewBox="0 0 300 50">
+                        <path d="M0,40 Q30,15 60,30 T120,10 T180,35 T240,15 T300,20" />
+                    </svg>
+                </div>
+                <button class="primary-btn">Plan ansehen ➔</button>
+            </div>
+        </div>
+
+        <div id="screen-explore" class="screen">
+            <div class="tabs-sub">
+                <span class="tab-sub-item active">Für dich</span>
+                <span class="tab-sub-item">Challenges</span>
+                <span class="tab-sub-item">Routen</span>
+            </div>
+            
+            <div class="section-title">Featured Challenge</div>
+            <div class="challenge-card">
+                <h4>MIDNIGHT 10K</h4>
+                <p>10KM in the dark.</p>
+                <div class="challenge-meta">
+                    <div>👥 12.538 Läufer</div>
+                    <div class="join-badge">Mitmachen</div>
+                </div>
+            </div>
+
+            <div class="section-title">Top Runner (Woche)</div>
+            <div class="leaderboard-list">
+                <div class="leader-item">
+                    <div class="leader-left"><span class="rank">1</span><span class="leader-name">lukas.runs</span></div>
+                    <span class="leader-val">127,8 KM</span>
+                </div>
+                <div class="leader-item">
+                    <div class="leader-left"><span class="rank">2</span><span class="leader-name">maya.runss</span></div>
+                    <span class="leader-val">112,3 KM</span>
+                </div>
+                <div class="leader-item">
+                    <div class="leader-left"><span class="rank">3</span><span class="leader-name">flo.running</span></div>
+                    <span class="leader-val">98,1 KM</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-profile" class="screen">
+            <div class="profile-header">
+                <div class="profile-avatar">MR</div>
+                <h3>michael.runs 👑</h3>
+                <p>Runner. Night addict. Always chasing progress. #762crew</p>
+            </div>
+
+            <div class="stats-row">
+                <div class="p-stat"><h5>142</h5><p>Posts</p></div>
+                <div class="p-stat"><h5>3.421</h5><p>Follower</p></div>
+                <div class="p-stat"><h5>196</h5><p>Following</p></div>
+            </div>
+
+            <div class="section-title">Diese Woche</div>
+            <div class="weekly-mileage-card">
+                <div class="mileage-header">
+                    <h4>62,47 <span style="font-size: 13px; color: var(--text-secondary); font-weight:600;">KM</span></h4>
+                    <span style="font-size: 11px; color: var(--accent-cyan); font-weight:700;">▲ 18% vs letzte Woche</span>
+                </div>
+                
+                <div class="bars-container">
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 40%;"></div></div><span class="bar-lbl">M</span></div>
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 70%;"></div></div><span class="bar-lbl">D</span></div>
+                    <div class="bar-group active"><div class="bar"><div class="bar-fill" style="height: 95%;"></div></div><span class="bar-lbl">M</span></div>
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 50%;"></div></div><span class="bar-lbl">D</span></div>
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 80%;"></div></div><span class="bar-lbl">F</span></div>
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 0%;"></div></div><span class="bar-lbl">S</span></div>
+                    <div class="bar-group"><div class="bar"><div class="bar-fill" style="height: 0%;"></div></div><span class="bar-lbl">S</span></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="tab-bar">
+        <button class="tab-item active" onclick="switchTab(this, 'screen-home')">🏠</button>
+        <button class="tab-item" onclick="switchTab(this, 'screen-track')">🏃</button>
+        <button class="tab-item" onclick="switchTab(this, 'screen-coach')">⚡</button>
+        <button class="tab-item" onclick="switchTab(this, 'screen-explore')">🔍</button>
+        <button class="tab-item" onclick="switchTab(this, 'screen-profile')">👤</button>
+    </nav>
+
+</div>
+
+<script>
+    function switchTab(button, screenId) {
+        document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+        button.classList.add('active');
+        document.getElementById(screenId).classList.add('active');
+    }
+
+    function toggleLike(btn) {
+        btn.classList.toggle('liked');
+        let countSpan = btn.querySelector('.count');
+        let currentCount = parseInt(countSpan.innerText);
+        countSpan.innerText = btn.classList.contains('liked') ? currentCount + 1 : currentCount - 1;
+    }
+
+    function toggleSave(btn) { btn.classList.toggle('saved'); }
+
+    // Live-Lauf Simulator für Screen 2
+    let tracking = false;
+    let seconds = 2120;
+    let distance = 7.48;
+    let interval;
+
+    function toggleTracking() {
+        const btn = document.getElementById('track-btn');
+        tracking = !tracking;
+        
+        if(tracking) {
+            btn.innerText = "‖"; btn.style.backgroundColor = "#ffffff";
+            interval = setInterval(() => {
+                seconds++; distance += 0.0014;
+                let mins = Math.floor(seconds / 60); let secs = seconds % 60;
+                document.getElementById('live-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                document.getElementById('live-dist').innerHTML = `${distance.toFixed(2)} <span style="font-size:13px;color:var(--text-secondary);font-weight:500;">KM</span>`;
+                if(seconds % 4 === 0) {
+                    document.getElementById('live-pace').innerText = ["5'21\"", "5'23\"", "5'24\"", "5'20\""][Math.floor(Math.random() * 4)];
+                }
+            }, 1000);
+        } else {
+            btn.innerText = "▶"; btn.style.backgroundColor = "var(--accent-cyan)";
+            clearInterval(interval);
+        }
+    }
+</script>
+
+</body>
+</html>
